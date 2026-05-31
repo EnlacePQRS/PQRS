@@ -1,0 +1,11 @@
+.web
+.venv
+node_modules
+__pycache__
+*.db
+*.db-journal
+.git
+.gitignore
+.env
+notificaciones.log
+uploaded_files
