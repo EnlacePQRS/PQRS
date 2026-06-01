@@ -28,7 +28,6 @@ WORKDIR /app
 COPY . .
 
 # Copiar el Caddyfile a la ruta de configuración por defecto de Caddy
-# (Asegúrate de tener el archivo Caddyfile creado en la raíz de tu proyecto local)
 COPY Caddyfile /etc/caddy/Caddyfile
 
 # Instalar los requerimientos de Python
@@ -52,8 +51,11 @@ STOPSIGNAL SIGKILL
 EXPOSE $PORT
 
 # 1. Arrancamos Redis en segundo plano de manera ligera.
-# 2. Corremos Caddy usando 'run' en segundo plano acoplado al Caddyfile.
-# 3. Forzamos un solo worker en línea para el Backend de Reflex para no superar los 512MB de Render.
+# 2. Corremos Caddy usando 'run' en segundo plano acoplado al Caddyfile tolerando restricciones de root (|| true &).
+# 3. Forzamos un entorno ultra-restringido de ejecución para Reflex:
+#    - WEB_CONCURRENCY=1 (Un solo proceso de FastAPI)
+#    - TELEMETRY_ENABLED=false (Apaga analíticas en segundo plano que asfixiaban la RAM a los 28 segundos)
+#    - --no-hot-reload (Desactiva observadores de desarrollo innecesarios)
 CMD redis-server --daemonize yes && \
     caddy run --config /etc/caddy/Caddyfile --adapter caddyfile || true & \
-    WEB_CONCURRENCY=1 exec reflex run --env prod --backend-only
+    WEB_CONCURRENCY=1 TELEMETRY_ENABLED=false exec reflex run --env prod --backend-only --no-hot-reload
