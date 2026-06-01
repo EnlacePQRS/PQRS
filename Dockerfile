@@ -37,4 +37,4 @@ EXPOSE $PORT
 
 # Ejecución directa del binario mapeado en el PATH del contenedor
 CMD redis-server --daemonize yes && \
-    exec uvicorn asgi:application --host 0.0.0.0 --port $PORT --workers 1
+    exec uvicorn asgi:application --host 0.0.0.0 --port $PORT --workers 1 --timeout-keep-alive 65 --ws-ping-interval 20 --ws-ping-timeout 20
