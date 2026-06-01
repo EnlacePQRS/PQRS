@@ -1,8 +1,8 @@
 import os
 import reflex as rx
 
-# Importamos tu aplicación
+# 1. Importamos tu aplicación
 from autenticacion.autenticacion import app
 
-# Extraemos la app nativa de FastAPI (Soporta ASGI de forma directa)
-application = app.backend
+# 2. Extraemos el objeto FastAPI real usando la propiedad nativa de esta versión
+application = app.api
