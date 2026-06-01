@@ -33,7 +33,6 @@ STOPSIGNAL SIGKILL
 
 EXPOSE $PORT
 
-# Usamos Granian apuntando al cargador de aplicaciones de Reflex (reflex.app:App) o FastAPI de manera nativa.
-# Para evitar cualquier fallo de firmas, invocamos directamente el submódulo de fastapi que genera Reflex internamente.
+# Apuntamos al backend de producción nativo de la v0.8.28 (app.api_app)
 CMD redis-server --daemonize yes && \
-    exec granian --interface asgi --host 0.0.0.0 --port $PORT --workers 1 autenticacion.autenticacion:app.api
+    exec granian --interface asgi --host 0.0.0.0 --port $PORT --workers 1 autenticacion.autenticacion:app.api_app
