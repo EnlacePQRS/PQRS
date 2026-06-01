@@ -33,6 +33,6 @@ STOPSIGNAL SIGKILL
 
 EXPOSE $PORT
 
-# Iniciamos Redis y ejecutamos mediante Uvicorn apuntando al backend nativo (.api)
+# El comando definitivo usando 'python -m uvicorn' para evitar el error 127
 CMD redis-server --daemonize yes && \
-    exec uvicorn autenticacion.autenticacion:app.api --host 0.0.0.0 --port $PORT --workers 1
+    exec python -m uvicorn autenticacion.autenticacion:app.api --host 0.0.0.0 --port $PORT --workers 1
