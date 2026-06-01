@@ -33,6 +33,7 @@ STOPSIGNAL SIGKILL
 
 EXPOSE $PORT
 
-# El comando definitivo usando 'python -m uvicorn' para evitar el error 127
+# Usamos Granian apuntando al cargador de aplicaciones de Reflex (reflex.app:App) o FastAPI de manera nativa.
+# Para evitar cualquier fallo de firmas, invocamos directamente el submódulo de fastapi que genera Reflex internamente.
 CMD redis-server --daemonize yes && \
-    exec python -m uvicorn autenticacion.autenticacion:app.api --host 0.0.0.0 --port $PORT --workers 1
+    exec granian --interface asgi --host 0.0.0.0 --port $PORT --workers 1 autenticacion.autenticacion:app
