@@ -353,3 +353,4 @@
 2026-05-31 19:55:41,174 - alembic.ddl.postgresql - INFO - Detected sequence named 'usuario_id_seq' as owned by integer column 'usuario(id)', assuming SERIAL and omitting
 2026-05-31 19:55:41,333 - alembic.ddl.postgresql - INFO - Detected sequence named 'solicitud_id_seq' as owned by integer column 'solicitud(id)', assuming SERIAL and omitting
 2026-05-31 19:55:41,423 - alembic.ddl.postgresql - INFO - Detected sequence named 'solicitudestadohistorial_id_seq' as owned by integer column 'solicitudestadohistorial(id)', assuming SERIAL and omitting
+2026-05-31 20:46:48,831 - httpx - INFO - HTTP Request: POST https://app.posthog.com/capture/ "HTTP/1.1 200 OK"

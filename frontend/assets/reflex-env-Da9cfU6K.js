@@ -1,0 +1,1 @@
+var e={PING:`https://pqrs-aktj.onrender.com/ping`,EVENT:`wss://pqrs-aktj.onrender.com/_event`,UPLOAD:`https://pqrs-aktj.onrender.com/_upload`,AUTH_CODESPACE:`https://pqrs-aktj.onrender.com/auth-codespace`,HEALTH:`https://pqrs-aktj.onrender.com/_health`,ALL_ROUTES:`https://pqrs-aktj.onrender.com/_all_routes`,TRANSPORT:`websocket`,TEST_MODE:!1};export{e as t};

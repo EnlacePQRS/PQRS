@@ -1,0 +1,1 @@
+import"./react-BxkmOCSS.js";import{n as e,t}from"./trash-2-COQOQ9dk.js";export{e as __iconNode,t as default};
