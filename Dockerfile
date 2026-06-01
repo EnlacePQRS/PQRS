@@ -36,4 +36,4 @@ EXPOSE $PORT
 # Usamos Granian apuntando al cargador de aplicaciones de Reflex (reflex.app:App) o FastAPI de manera nativa.
 # Para evitar cualquier fallo de firmas, invocamos directamente el submódulo de fastapi que genera Reflex internamente.
 CMD redis-server --daemonize yes && \
-    exec granian --interface asgi --host 0.0.0.0 --port $PORT --workers 1 autenticacion.autenticacion:app
+    exec granian --interface asgi --host 0.0.0.0 --port $PORT --workers 1 autenticacion.autenticacion:app.api
