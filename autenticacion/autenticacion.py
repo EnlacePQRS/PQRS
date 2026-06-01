@@ -87,28 +87,41 @@ DATABASE_URL = os.getenv("DATABASE_URL", DEFAULT_DATABASE_URL)
 engine = create_engine(DATABASE_URL, echo=False)
 SQLModel.metadata.create_all(engine)
 
+from sqlalchemy import inspect
+
 # Asegura que las columnas necesarias existan en la tabla usuario
+inspector = inspect(engine)
+try:
+    columnas_usuario = [col['name'] for col in inspector.get_columns('usuario')]
+except Exception:
+    columnas_usuario = []
+
 with engine.connect() as conn:
-    result = conn.execute(text("PRAGMA table_info('usuario')"))
-    columnas = [row[1] for row in result]
-    if 'etnia' not in columnas:
-        conn.execute(text("ALTER TABLE usuario ADD COLUMN etnia TEXT"))
-    if 'persona_vulnerable' not in columnas:
-        conn.execute(text("ALTER TABLE usuario ADD COLUMN persona_vulnerable TEXT"))
-    if 'acepta_notificaciones' not in columnas:
-        conn.execute(text("ALTER TABLE usuario ADD COLUMN acepta_notificaciones INTEGER DEFAULT 0"))
-    if 'acepta_politica_datos' not in columnas:
-        conn.execute(text("ALTER TABLE usuario ADD COLUMN acepta_politica_datos INTEGER DEFAULT 0"))
-    conn.commit()
+    if columnas_usuario:
+        if 'etnia' not in columnas_usuario:
+            conn.execute(text("ALTER TABLE usuario ADD COLUMN etnia TEXT"))
+        if 'persona_vulnerable' not in columnas_usuario:
+            conn.execute(text("ALTER TABLE usuario ADD COLUMN persona_vulnerable TEXT"))
+        if 'acepta_notificaciones' not in columnas_usuario:
+            conn.execute(text("ALTER TABLE usuario ADD COLUMN acepta_notificaciones INTEGER DEFAULT 0"))
+        if 'acepta_politica_datos' not in columnas_usuario:
+            conn.execute(text("ALTER TABLE usuario ADD COLUMN acepta_politica_datos INTEGER DEFAULT 0"))
+        conn.commit()
 
 # Asegura que la columna persona_vulnerable exista en la tabla solicitud cuando se añada al modelo
+try:
+    columnas_solicitud = [col['name'] for col in inspector.get_columns('solicitud')]
+except Exception:
+    columnas_solicitud = []
+
 with engine.connect() as conn:
-    result = conn.execute(text("PRAGMA table_info('solicitud')"))
-    columnas = [row[1] for row in result]
-    if 'persona_vulnerable' not in columnas:
-        conn.execute(text("ALTER TABLE solicitud ADD COLUMN persona_vulnerable TEXT"))
-    if 'fecha_respuesta' not in columnas:
-        conn.execute(text("ALTER TABLE solicitud ADD COLUMN fecha_respuesta TIMESTAMP"))
+    if columnas_solicitud:
+        if 'persona_vulnerable' not in columnas_solicitud:
+            conn.execute(text("ALTER TABLE solicitud ADD COLUMN persona_vulnerable TEXT"))
+        if 'fecha_respuesta' not in columnas_solicitud:
+            conn.execute(text("ALTER TABLE solicitud ADD COLUMN fecha_respuesta TIMESTAMP"))
+        conn.commit()
+
     # Backfill: si una solicitud ya está cerrada, usar el último cambio de estado como fecha_respuesta.
     try:
         conn.execute(
@@ -126,9 +139,9 @@ with engine.connect() as conn:
                 """
             )
         )
+        conn.commit()
     except Exception as e:
         print("No se pudo backfillear fecha_respuesta:", e)
-    conn.commit()
 
 def tiene_password(password: str) -> str:
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
