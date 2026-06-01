@@ -27,6 +27,12 @@ COPY . .
 # Instalar los requerimientos de Python
 RUN pip install --no-cache-dir -r requirements.txt
 
+# ==========================================
+# CONFIGURACIÓN PARA EVITAR FALTA DE MEMORIA (RAM)
+# ==========================================
+# Forzamos a Node.js a liberar RAM agresivamente y no pasarse de 450MB
+ENV NODE_OPTIONS="--max-old-space-size=450"
+
 # Inicializar Reflex y descargar/preparar el entorno Node.js interno de Reflex
 RUN reflex init
 
