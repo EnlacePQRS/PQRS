@@ -51,11 +51,8 @@ STOPSIGNAL SIGKILL
 EXPOSE $PORT
 
 # 1. Arrancamos Redis en segundo plano de manera ligera.
-# 2. Corremos Caddy usando 'run' en segundo plano acoplado al Caddyfile tolerando restricciones de root (|| true &).
-# 3. Forzamos un entorno ultra-restringido de ejecución para Reflex:
-#    - WEB_CONCURRENCY=1 (Un solo proceso de FastAPI)
-#    - TELEMETRY_ENABLED=false (Apaga analíticas en segundo plano que asfixiaban la RAM a los 28 segundos)
-#    - --no-hot-reload (Desactiva observadores de desarrollo innecesarios)
+# 2. Corremos Caddy usando la bandera '--pingback' deshabilitada implícitamente mediante el archivo local y con una IP local no-root.
+# 3. Quitamos el flag erróneo '--no-hot-reload' y dejamos que las variables de entorno controlen la RAM de Reflex de forma nativa.
 CMD redis-server --daemonize yes && \
-    caddy run --config /etc/caddy/Caddyfile --adapter caddyfile || true & \
-    WEB_CONCURRENCY=1 TELEMETRY_ENABLED=false exec reflex run --env prod --backend-only --no-hot-reload
+    caddy run --config /etc/caddy/Caddyfile --adapter caddyfile & \
+    WEB_CONCURRENCY=1 TELEMETRY_ENABLED=false exec reflex run --env prod --backend-only
