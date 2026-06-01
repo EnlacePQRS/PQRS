@@ -8,15 +8,18 @@ ARG PORT=8080
 ARG API_URL
 
 # Configuración de variables de entorno para Reflex y Python
+# Añadimos WEB_CONCURRENCY=1 para limitar la RAM de FastAPI en tiempo de ejecución
 ENV PORT=$PORT \
     REFLEX_API_URL=${API_URL} \
     REFLEX_REDIS_URL=redis://localhost:6379 \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    WEB_CONCURRENCY=1 \
+    GUNICORN_CMD_ARGS="--workers=1 --threads=1"
 
 # Instalar dependencias necesarias para Node, unzip (requerido por Reflex) y redis-server
 RUN apt-get update -y && apt-get install -y redis-server curl unzip && rm -rf /var/lib/apt/lists/*
 
-# Copiar el binario de Caddy desde la imagen oficial de Caddy (para evitar agregar repositorios complejos)
+# Copiar el binario de Caddy desde la imagen oficial de Caddy
 COPY --from=caddy:2 /usr/bin/caddy /usr/bin/caddy
 
 WORKDIR /app
@@ -24,13 +27,17 @@ WORKDIR /app
 # Copiar todo el contenido del proyecto (filtrado por .dockerignore)
 COPY . .
 
+# Copiar el Caddyfile a la ruta de configuración por defecto de Caddy
+# (Asegúrate de tener el archivo Caddyfile creado en la raíz de tu proyecto local)
+COPY Caddyfile /etc/caddy/Caddyfile
+
 # Instalar los requerimientos de Python
 RUN pip install --no-cache-dir -r requirements.txt
 
 # ==========================================
 # CONFIGURACIÓN PARA EVITAR FALTA DE MEMORIA (RAM)
 # ==========================================
-# Forzamos a Node.js a liberar RAM agresivamente y no pasarse de 450MB
+# Forzamos a Node.js a liberar RAM agresivamente y no pasarse de 450MB en la build
 ENV NODE_OPTIONS="--max-old-space-size=450"
 
 # Inicializar Reflex y descargar/preparar el entorno Node.js interno de Reflex
@@ -44,9 +51,9 @@ STOPSIGNAL SIGKILL
 
 EXPOSE $PORT
 
-# 1. Arrancamos Redis en segundo plano.
-# 2. Iniciamos Caddy de forma segura (añadiendo flags tolerantes para entornos sin root).
-# 3. Quitamos el comando 'reflex db migrate' manual para que no choque con Neon y dejamos que el backend inicie directo.
+# 1. Arrancamos Redis en segundo plano de manera ligera.
+# 2. Corremos Caddy usando 'run' en segundo plano acoplado al Caddyfile.
+# 3. Forzamos un solo worker en línea para el Backend de Reflex para no superar los 512MB de Render.
 CMD redis-server --daemonize yes && \
-    caddy start --config /etc/caddy/Caddyfile --adapter caddyfile || true && \
-    exec reflex run --env prod --backend-only
+    caddy run --config /etc/caddy/Caddyfile --adapter caddyfile || true & \
+    WEB_CONCURRENCY=1 exec reflex run --env prod --backend-only

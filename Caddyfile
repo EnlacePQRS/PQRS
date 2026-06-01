@@ -2,15 +2,20 @@
 
 encode gzip
 
-# Redirigir las rutas del backend de Reflex (Eventos, Websockets, Ping, Cargas)
-@backend_routes path /_event/* /ping /_upload /_upload/*
+# Captura TODAS las rutas críticas del backend de Reflex (Eventos, WebSockets, Carga de archivos y Ping)
+@backend_routes path /_event/* /_reflex/* /_ws/* /ping /_upload /_upload/*
+
 handle @backend_routes {
-	reverse_proxy localhost:8000
+    reverse_proxy localhost:8000 {
+        # Permite que las conexiones WebSocket se mantengan vivas sin desconectarse
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+    }
 }
 
 # Servir el frontend compilado de forma estática
 root * /srv
 route {
-	try_files {path} {path}/ /404.html
-	file_server
+    try_files {path} {path}/ /404.html
+    file_server
 }
