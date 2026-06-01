@@ -33,6 +33,11 @@ config = rx.Config(
         "https://frontend-aexc9eups-sistema-pqrs-projects.vercel.app",
         "http://localhost:3000"
     ],
+    # Forzar empaquetado optimizado para producción en Vercel
+    frontend_packages=[
+        "websocket"
+    ],
+
     plugins=[
         rx.plugins.SitemapPlugin(),
         rx.plugins.TailwindV4Plugin(),
