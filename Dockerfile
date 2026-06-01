@@ -32,6 +32,6 @@ EXPOSE $PORT
 # Explicación del comando de arranque:
 # 1. Iniciamos Redis para el manejo de estados de Reflex.
 # 2. Corremos Reflex únicamente como BACKEND utilizando Gunicorn/Uvicorn integrados.
-#    Esto consume menos de 150MB de RAM en total, asegurando que jamás toque el límite de 512MB.
+#    Cambiado '--port' por '--backend-port' para compatibilidad con la versión 0.8.28.
 CMD redis-server --daemonize yes && \
-    exec reflex run --env prod --backend-only --port $PORT
+    exec reflex run --env prod --backend-only --backend-port $PORT
