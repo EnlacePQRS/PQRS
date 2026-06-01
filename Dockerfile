@@ -44,8 +44,9 @@ STOPSIGNAL SIGKILL
 
 EXPOSE $PORT
 
-# Ejecutar migraciones si existe la carpeta alembic, encender caddy, redis y arrancar el backend en producción
-CMD [ -d alembic ] && reflex db migrate; \
-    caddy start && \
-    redis-server --daemonize yes && \
+# 1. Arrancamos Redis en segundo plano.
+# 2. Iniciamos Caddy de forma segura (añadiendo flags tolerantes para entornos sin root).
+# 3. Quitamos el comando 'reflex db migrate' manual para que no choque con Neon y dejamos que el backend inicie directo.
+CMD redis-server --daemonize yes && \
+    caddy start --config /etc/caddy/Caddyfile --adapter caddyfile || true && \
     exec reflex run --env prod --backend-only
