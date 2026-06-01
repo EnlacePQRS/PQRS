@@ -1,4 +1,4 @@
-# Dockerfile de producción optimizado al extremo usando ejecución directa
+# Dockerfile de producción optimizado al extremo
 FROM python:3.11-slim
 
 ARG PORT=8080
@@ -33,6 +33,6 @@ STOPSIGNAL SIGKILL
 
 EXPOSE $PORT
 
-# Iniciamos Redis y apuntamos Granian al punto de entrada de la aplicación de Reflex
+# Iniciamos Redis y ejecutamos mediante Uvicorn apuntando al backend nativo (.api)
 CMD redis-server --daemonize yes && \
-    exec granian --interface asgi --host 0.0.0.0 --port $PORT --workers 1 autenticacion.autenticacion:app
+    exec uvicorn autenticacion.autenticacion:app.api --host 0.0.0.0 --port $PORT --workers 1
