@@ -302,3 +302,54 @@
 2026-05-31 18:38:47,128 - alembic.ddl.postgresql - INFO - Detected sequence named 'solicitud_id_seq' as owned by integer column 'solicitud(id)', assuming SERIAL and omitting
 2026-05-31 18:38:47,222 - alembic.ddl.postgresql - INFO - Detected sequence named 'solicitudestadohistorial_id_seq' as owned by integer column 'solicitudestadohistorial(id)', assuming SERIAL and omitting
 2026-05-31 19:24:05,626 - httpx - INFO - HTTP Request: POST https://app.posthog.com/capture/ "HTTP/1.1 200 OK"
+2026-05-31 19:51:20,861 - alembic.runtime.migration - INFO - Context impl PostgresqlImpl.
+2026-05-31 19:51:20,861 - alembic.runtime.migration - INFO - Will assume transactional DDL.
+2026-05-31 19:51:37,379 - alembic.runtime.migration - INFO - Context impl PostgresqlImpl.
+2026-05-31 19:51:37,379 - alembic.runtime.migration - INFO - Will assume transactional DDL.
+2026-05-31 19:51:37,777 - alembic.runtime.migration - INFO - Running upgrade  -> ff383e22d5c3, empty message
+2026-05-31 19:51:38,078 - alembic.runtime.migration - INFO - Running upgrade ff383e22d5c3 -> add_user_fields_20260423, Add extended user fields
+2026-05-31 19:51:38,482 - alembic.runtime.migration - INFO - Running upgrade add_user_fields_20260423 -> 7b4987c65ca5, Update solicitud table to match new model
+2026-05-31 19:51:38,679 - alembic.runtime.migration - INFO - Running upgrade 7b4987c65ca5 -> 7365db6e7bec, Add area_responsable to solicitud
+2026-05-31 19:51:39,075 - alembic.runtime.migration - INFO - Running upgrade 7365db6e7bec -> 9cd2274ba80b, Add respuesta field to solicitud
+2026-05-31 19:51:39,445 - alembic.runtime.migration - INFO - Running upgrade 9cd2274ba80b -> add_solicitud_estado_historial, Add historial de cambios de estado a solicitudes
+2026-05-31 19:51:39,647 - alembic.runtime.migration - INFO - Running upgrade add_solicitud_estado_historial -> 84808eb97a1f, HU9 y HU11
+2026-05-31 19:51:40,517 - alembic.runtime.migration - INFO - Context impl PostgresqlImpl.
+2026-05-31 19:51:40,519 - alembic.runtime.migration - INFO - Will assume transactional DDL.
+2026-05-31 19:51:40,808 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.schemas
+2026-05-31 19:51:40,810 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.tables
+2026-05-31 19:51:40,810 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.types
+2026-05-31 19:51:40,810 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.constraints
+2026-05-31 19:51:40,811 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.defaults
+2026-05-31 19:51:40,811 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.comments
+2026-05-31 19:51:42,011 - alembic.ddl.postgresql - INFO - Detected sequence named 'solicitud_estado_historial_id_seq' as owned by integer column 'solicitud_estado_historial(id)', assuming SERIAL and omitting
+2026-05-31 19:51:42,018 - alembic.autogenerate.compare.tables - INFO - Detected removed table 'solicitud_estado_historial'
+2026-05-31 19:51:42,111 - alembic.ddl.postgresql - INFO - Detected sequence named 'usuario_id_seq' as owned by integer column 'usuario(id)', assuming SERIAL and omitting
+2026-05-31 19:51:42,210 - alembic.ddl.postgresql - INFO - Detected sequence named 'solicitud_id_seq' as owned by integer column 'solicitud(id)', assuming SERIAL and omitting
+2026-05-31 19:51:42,297 - alembic.ddl.postgresql - INFO - Detected sequence named 'solicitudestadohistorial_id_seq' as owned by integer column 'solicitudestadohistorial(id)', assuming SERIAL and omitting
+2026-05-31 19:55:21,888 - alembic.runtime.migration - INFO - Context impl PostgresqlImpl.
+2026-05-31 19:55:21,891 - alembic.runtime.migration - INFO - Will assume transactional DDL.
+2026-05-31 19:55:22,190 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.schemas
+2026-05-31 19:55:22,190 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.tables
+2026-05-31 19:55:22,190 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.types
+2026-05-31 19:55:22,190 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.constraints
+2026-05-31 19:55:22,190 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.defaults
+2026-05-31 19:55:22,190 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.comments
+2026-05-31 19:55:23,375 - alembic.ddl.postgresql - INFO - Detected sequence named 'solicitud_estado_historial_id_seq' as owned by integer column 'solicitud_estado_historial(id)', assuming SERIAL and omitting
+2026-05-31 19:55:23,375 - alembic.autogenerate.compare.tables - INFO - Detected removed table 'solicitud_estado_historial'
+2026-05-31 19:55:23,474 - alembic.ddl.postgresql - INFO - Detected sequence named 'solicitudestadohistorial_id_seq' as owned by integer column 'solicitudestadohistorial(id)', assuming SERIAL and omitting
+2026-05-31 19:55:23,574 - alembic.ddl.postgresql - INFO - Detected sequence named 'solicitud_id_seq' as owned by integer column 'solicitud(id)', assuming SERIAL and omitting
+2026-05-31 19:55:23,674 - alembic.ddl.postgresql - INFO - Detected sequence named 'usuario_id_seq' as owned by integer column 'usuario(id)', assuming SERIAL and omitting
+2026-05-31 19:55:38,813 - alembic.runtime.migration - INFO - Context impl PostgresqlImpl.
+2026-05-31 19:55:38,815 - alembic.runtime.migration - INFO - Will assume transactional DDL.
+2026-05-31 19:55:39,116 - alembic.runtime.migration - INFO - Running upgrade 84808eb97a1f -> cea421f13e28, empty message
+2026-05-31 19:55:39,597 - alembic.runtime.migration - INFO - Context impl PostgresqlImpl.
+2026-05-31 19:55:39,597 - alembic.runtime.migration - INFO - Will assume transactional DDL.
+2026-05-31 19:55:39,891 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.schemas
+2026-05-31 19:55:39,891 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.tables
+2026-05-31 19:55:39,891 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.types
+2026-05-31 19:55:39,891 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.constraints
+2026-05-31 19:55:39,891 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.defaults
+2026-05-31 19:55:39,891 - alembic.runtime.plugins - INFO - setting up autogenerate plugin alembic.autogenerate.comments
+2026-05-31 19:55:41,174 - alembic.ddl.postgresql - INFO - Detected sequence named 'usuario_id_seq' as owned by integer column 'usuario(id)', assuming SERIAL and omitting
+2026-05-31 19:55:41,333 - alembic.ddl.postgresql - INFO - Detected sequence named 'solicitud_id_seq' as owned by integer column 'solicitud(id)', assuming SERIAL and omitting
+2026-05-31 19:55:41,423 - alembic.ddl.postgresql - INFO - Detected sequence named 'solicitudestadohistorial_id_seq' as owned by integer column 'solicitudestadohistorial(id)', assuming SERIAL and omitting
