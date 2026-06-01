@@ -33,7 +33,6 @@ STOPSIGNAL SIGKILL
 
 EXPOSE $PORT
 
-# Apuntamos al backend de producción nativo de la v0.8.28 (app.api_app)
-# Ejecutamos Granian apuntando a nuestro puente limpio asgi.py
+# Forzamos la ejecución limpia de Uvicorn a través del binario absoluto del sistema
 CMD redis-server --daemonize yes && \
-    exec granian --interface asgi --host 0.0.0.0 --port $PORT --workers 1 asgi:application
+    exec /usr/local/bin/python -m uvicorn asgi:application --host 0.0.0.0 --port $PORT --workers 1
