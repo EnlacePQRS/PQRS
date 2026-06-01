@@ -33,10 +33,6 @@ STOPSIGNAL SIGKILL
 
 EXPOSE $PORT
 
-# Explicación del comando de arranque definitivo:
-# 1. Iniciamos Redis en segundo plano de manera ligera.
-# 2. En lugar de usar 'reflex run', llamamos directamente a granian para ejecutar la app de FastAPI.
-#    Buscamos el objeto 'app' dentro del archivo principal generado por Reflex (usualmente la raíz del proyecto).
-#    Esto elimina por completo el intermediario de Reflex que causaba el Out Of Memory a los 30 segundos.
+# Iniciamos Redis y apuntamos Granian al punto de entrada de la aplicación de Reflex
 CMD redis-server --daemonize yes && \
-    exec granian --interface asgi --host 0.0.0.0 --port $PORT --workers 1 rxconfig:app
+    exec granian --interface asgi --host 0.0.0.0 --port $PORT --workers 1 autenticacion.autenticacion:app
